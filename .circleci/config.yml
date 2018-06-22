@@ -7,21 +7,30 @@ jobs:
     steps:
       - checkout
       - run: make testing
-      - store_artifacts:
-          path: /tmp/packages
+      - persist_to_workspace:
+          root: /tmp
+          paths:
+            - packages
   stable:
     docker:
       - image: massiveco/docker-alpine-sdk
     steps:
       - checkout
       - run: make stable
-      - store_artifacts:
-          path: /tmp/packages
+      - persist_to_workspace:
+          root: /tmp
+          paths:
+            - packages
   deploy:
     docker:
-      - image: massiveco/docker-alpine-sdk
+      - image: alpine:3.7
     steps:
-      - run: echo Hello World!
+      - attach_workspace:
+          at: /tmp/
+      - run: echo $SSH_PRIV_KEY | base64 -D > .ssh/circleci
+      - run: apk --update add rsync
+      - run: rsync -avrz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress /tmp/packages alpine.ma.ssive.co:/var/www/alpine.ma.ssive.co/
+
 
 workflows:
   version: 2
