@@ -1,15 +1,24 @@
 version: 2
 jobs:
-  packages:
+  build:
     docker:
       - image: massiveco/docker-alpine-sdk
     steps:
       - checkout
-      - run: make all
+      - run: make testing
+      - store_artifacts:
+          path: /tmp/packages
+  stable:
+    docker:
+      - image: massiveco/docker-alpine-sdk
+    steps:
+      - checkout
+      - run: make stable
       - store_artifacts:
           path: /tmp/packages
 workflows:
   version: 2
-  build_and_test:
+  build:
     jobs:
-      - packages
+      - build
+      - stable
