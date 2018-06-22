@@ -21,7 +21,7 @@ prepare() {
 
 build() {
 	cd "$builddir"
-	make -j1 WHAT="cmd/kubelet cmd/kube-proxy cmd/kube-apiserver cmd/kube-controller-manager cmd/kube-scheduler cmd/kubectl"
+	make -j1 CGO_ENABLED=0 WHAT="cmd/kubelet cmd/kube-proxy cmd/kube-apiserver cmd/kube-controller-manager cmd/kube-scheduler cmd/kubectl"
 }
 
 # check() {
