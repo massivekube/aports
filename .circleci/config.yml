@@ -1,6 +1,7 @@
 version: 2
+
 jobs:
-  build:
+  testing:
     docker:
       - image: massiveco/docker-alpine-sdk
     steps:
@@ -16,9 +17,19 @@ jobs:
       - run: make stable
       - store_artifacts:
           path: /tmp/packages
+  deploy:
+    docker:
+      - image: massiveco/docker-alpine-sdk
+    steps:
+      - run: echo Hello World!
+
 workflows:
   version: 2
   build:
     jobs:
       - build
       - stable
+      - deploy:
+          requires:
+              - testing
+              - stable
