@@ -1,6 +1,6 @@
 # Maintainer: Dan Williams <dan@ma.ssive.co>
 pkgname=kubernetes
-pkgver=1.10.5
+pkgver=1.11.0
 pkgrel=0
 pkgdesc="Production-Grade Container Scheduling and Management"
 url="https://github.com/kubernetes/kubernetes"
@@ -21,7 +21,7 @@ prepare() {
 
 build() {
 	cd "$builddir"
-	make -j1 CGO_ENABLED=0 WHAT="cmd/kubelet cmd/kube-proxy cmd/kube-apiserver cmd/kube-controller-manager cmd/kube-scheduler cmd/kubectl"
+ 	make -j1 WHAT="cmd/kubelet cmd/kube-proxy cmd/kube-apiserver cmd/kube-controller-manager cmd/kube-scheduler cmd/kubectl"
 }
 
 # check() {
@@ -78,7 +78,7 @@ kubelet() {
 	local binpath="$builddir/_output/local/bin/linux/amd64"
 	local configpath="$srcdir/../kubelet"
 
-	depends="socat"
+	depends="socat conntrack-tools"
 	install="$srcdir/kubelet/install"
 
 	# Binaries
