@@ -42,8 +42,13 @@ package() {
 	install -Dm600 "$srcdir"/etcd.monitd "$pkgdir"/etc/monit.d/$pkgname.conf
 
 	mkdir -p "$pkgdir"/var/log/
+	mkdir -p "$pkgdir"/var/lib/etcd
+
 	touch "$pkgdir"/var/log/etcd.log
+
 	chown 20006:30006 "$pkgdir"/var/log/etcd.log
+	chown 20006:30006 "$pkgdir"/var/lib/etcd
+
 }
 
 sha512sums="e4495a02f1e2a08cc70a055528edbc118f50e4fe68b51afeb82908a7c2387de1e457adfb8078befec6829daeace61b95501da9f8b3fa49e0aecc9710ece470a4  etcd-3.3.5.tar.gz
