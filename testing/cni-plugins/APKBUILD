@@ -1,0 +1,47 @@
+# Maintainer: Dan Williams <dan@ma.ssive.co>
+pkgname=cni-plugins
+pkgver=0.7.1
+pkgrel=0
+pkgdesc="Some standard networking plugins, maintained by the CNI team."
+url="https://github.com/containernetworking/plugins"
+arch="all"
+license="Apache-2.0"
+makedepends="go bash "
+source="$pkgname-$pkgver.tar.gz::${url}/archive/v${pkgver}.tar.gz"
+builddir="$srcdir/src/github.com/containernetworking/plugins"
+
+export GOPATH="$srcdir"
+
+prepare() {
+	mkdir -p ${builddir%/*}
+	mv "$srcdir"/${pkgname/cni-/}-${pkgver} "$builddir"/
+	default_prepare
+}
+
+build() {
+	cd "$builddir"
+	./build.sh
+}
+
+# check() {
+# 	cd "$builddir"
+# 	# go get github.com/onsi/ginkgo/ginkgo
+# 	./test.sh
+# }
+
+package() {
+	install -Dm755 "$builddir"/bin/bridge "$pkgdir"/usr/bin/bridge
+	install -Dm755 "$builddir"/bin/dhcp "$pkgdir"/usr/bin/dhcp
+	install -Dm755 "$builddir"/bin/flannel "$pkgdir"/usr/bin/flannel
+	install -Dm755 "$builddir"/bin/host-device "$pkgdir"/usr/bin/host-device
+	install -Dm755 "$builddir"/bin/host-local "$pkgdir"/usr/bin/host-local
+	install -Dm755 "$builddir"/bin/ipvlan "$pkgdir"/usr/bin/ipvlan
+	install -Dm755 "$builddir"/bin/loopback "$pkgdir"/usr/bin/loopback
+	install -Dm755 "$builddir"/bin/macvlan "$pkgdir"/usr/bin/macvlan
+	install -Dm755 "$builddir"/bin/portmap "$pkgdir"/usr/bin/portmap
+	install -Dm755 "$builddir"/bin/ptp "$pkgdir"/usr/bin/ptp
+	install -Dm755 "$builddir"/bin/tuning "$pkgdir"/usr/bin/tuning
+	install -Dm755 "$builddir"/bin/vlan "$pkgdir"/usr/bin/vlan
+}
+
+sha512sums="23d3b35c22fdc85d087922fb59c63622a9283ff11d34d1a1043c323f9b07b3837418f333d2f2ab9c6a22514351d71aeeab6a57234b14f53ba29847cffa382ea0  cni-plugins-0.7.1.tar.gz"
