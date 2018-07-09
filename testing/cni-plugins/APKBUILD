@@ -6,7 +6,7 @@ pkgdesc="Some standard networking plugins, maintained by the CNI team."
 url="https://github.com/containernetworking/plugins"
 arch="all"
 license="Apache-2.0"
-makedepends="go bash "
+makedepends="go bash linux-headers"
 source="$pkgname-$pkgver.tar.gz::${url}/archive/v${pkgver}.tar.gz"
 builddir="$srcdir/src/github.com/containernetworking/plugins"
 
