@@ -30,6 +30,10 @@ build() {
 # }
 
 package() {
+
+	mkdir -p "$pkgdir"/etc/cni/net.d/
+	install -Dm655 "$srcdir"/99-loopback.conf "$pkgdir"/etc/cni/net.d/99-loopback.conf
+
 	install -Dm755 "$builddir"/bin/bridge "$pkgdir"/usr/bin/bridge
 	install -Dm755 "$builddir"/bin/dhcp "$pkgdir"/usr/bin/dhcp
 	install -Dm755 "$builddir"/bin/flannel "$pkgdir"/usr/bin/flannel
