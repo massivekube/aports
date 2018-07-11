@@ -6,7 +6,7 @@ pkgdesc="Checks whether Kubernetes is deployed according to security best practi
 url="https://github.com/aquasecurity/kube-bench"
 arch="all"
 license="Apache-2.0"
-makedepends="go glide"
+makedepends="go"
 source="$pkgname-$pkgver.tar.gz::${url}/archive/v${pkgver}.tar.gz"
 builddir="$srcdir/src/github.com/aquasecurity/kube-bench"
 
@@ -21,7 +21,8 @@ prepare() {
 
 build() {
 	cd "$builddir"
-	glide up
+
+	go get ./...
 	make kube-bench
 }
 
