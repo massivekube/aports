@@ -4,6 +4,8 @@ LOG_LEVEL=1
 APISERVER_COUNT=1
 AUTHORIZATION_MODE=Node,RBAC
 
+SECURE_PORT=443
+
 ETCD_SERVERS=https://127.0.0.1:2379
 ETCD_CA=/var/lib/kubernetes/ca.pem
 ETCD_CERT=/var/lib/kubernetes/kubernetes.pem

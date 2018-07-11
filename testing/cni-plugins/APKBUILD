@@ -6,8 +6,9 @@ pkgdesc="Some standard networking plugins, maintained by the CNI team."
 url="https://github.com/containernetworking/plugins"
 arch="all"
 license="Apache-2.0"
-makedepends="go bash linux-headers"
-source="$pkgname-$pkgver.tar.gz::${url}/archive/v${pkgver}.tar.gz"
+makedepends="go bash linux-headers ip6tables"
+source="$pkgname-$pkgver.tar.gz::${url}/archive/v${pkgver}.tar.gz
+	99-loopback.conf"
 builddir="$srcdir/src/github.com/containernetworking/plugins"
 
 export GOPATH="$srcdir"
@@ -25,7 +26,6 @@ build() {
 
 # check() {
 # 	cd "$builddir"
-# 	# go get github.com/onsi/ginkgo/ginkgo
 # 	./test.sh
 # }
 
@@ -48,4 +48,5 @@ package() {
 	install -Dm755 "$builddir"/bin/vlan "$pkgdir"/usr/bin/vlan
 }
 
-sha512sums="23d3b35c22fdc85d087922fb59c63622a9283ff11d34d1a1043c323f9b07b3837418f333d2f2ab9c6a22514351d71aeeab6a57234b14f53ba29847cffa382ea0  cni-plugins-0.7.1.tar.gz"
+sha512sums="23d3b35c22fdc85d087922fb59c63622a9283ff11d34d1a1043c323f9b07b3837418f333d2f2ab9c6a22514351d71aeeab6a57234b14f53ba29847cffa382ea0  cni-plugins-0.7.1.tar.gz
+3a150b07f79baae3f88edf4789f10a4980a450ca6f4acfe3493c8c18a78b3ea0194258c913cc566844ac0906a9fbca0002e5b1bbbd7230d1d91c7e2b881bc671  99-loopback.conf"

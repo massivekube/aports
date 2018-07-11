@@ -2,18 +2,30 @@
 
 NAME=kube-controller-manager
 DAEMON=/usr/bin/$NAME
-
-OPTS="
   --address=0.0.0.0 \\
   --cluster-cidr=10.200.0.0/16 \\
   --cluster-name=kubernetes \\
   --cluster-signing-cert-file=/var/lib/kubernetes/ca.pem \\
   --cluster-signing-key-file=/var/lib/kubernetes/ca-key.pem \\
+  --kubeconfig=/var/lib/kubernetes/kube-controller-manager.kubeconfig \\
   --leader-elect=true \\
-  --master=http://127.0.0.1:8080 \\
   --root-ca-file=/var/lib/kubernetes/ca.pem \\
-  --service-account-private-key-file=/var/lib/kubernetes/ca-key.pem \\
-  --service-cluster-ip-range=10.32.0.0/24 \\
+  --service-account-private-key-file=/var/lib/kubernetes/service-account-key.pem \\
+  --service-cluster-ip-range=${SERVICE_CLUSTER_IP_RANGE} \\
+  --use-service-account-credentials=true \\
+  --v=2
+OPTS="
+  --address=0.0.0.0 \
+  --cluster-cidr=10.200.0.0/16 \
+  --cluster-name=kubernetes \
+  --cluster-signing-cert-file=/var/lib/kubernetes/ca.pem \
+  --cluster-signing-key-file=/var/lib/kubernetes/ca-key.pem \
+  --leader-elect=true \
+  --master=http://127.0.0.1:8080 \
+  --root-ca-file=/var/lib/kubernetes/ca.pem \
+  --service-account-private-key-file=/var/lib/kubernetes/ca-key.pem \
+  --service-cluster-ip-range=${SERVICE_CLUSTER_IP_RANGE} \
+  --use-service-account-credentials=true \
   --v=${LOG_LEVEL}"
 
 depend() {
