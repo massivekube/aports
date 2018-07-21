@@ -1,0 +1,39 @@
+# Maintainer: Dan Williams <dan@ma.ssive.co>
+pkgname=headstart
+pkgver=0.1.0
+pkgrel=0
+pkgdesc="Simple early initialization of instances."
+url="https://github.com/massiveco/headstart"
+giturl="git@github.com:massiveco/headstart.git"
+arch="all"
+license="Apache-2.0"
+makedepends="go bash"
+source="$pkgname-$pkgver.tar.gz::${url}/archive/v${pkgver}.tar.gz"
+builddir="$srcdir/src/github.com/massiveco/headstart"
+
+export GOPATH="$srcdir"
+
+prepare() {
+	mkdir -p ${builddir%/*}
+	mv "$srcdir"/$pkgname-${pkgver} "$builddir"/
+	default_prepare
+}
+
+build() {
+	cd "$builddir"
+	go get ./...
+	make all
+}
+
+check() {
+	cd "$builddir"
+	go test ./...
+}
+
+package() {
+	install -Dm755 "$builddir"/headstart "$pkgdir"/usr/bin/headstart
+	install -Dm755 "$builddir"/providers/aws.so "$pkgdir"/usr/lib/headstart/providers/aws.so
+	install -Dm755 "$builddir"/providers/local.so "$pkgdir"/usr/lib/headstart/providers/local.so
+}
+
+sha512sums="63c38b95d150f5a2842dd0980cc493cad69dfcc7253fcae45d46a79c1e5a43376ee59e86e9171f85fce60a89314cd2ee8e2624b583240fde67be13fa9175a5f2  headstart-0.1.0.tar.gz"
