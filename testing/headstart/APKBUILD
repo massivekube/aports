@@ -1,6 +1,6 @@
 # Maintainer: Dan Williams <dan@ma.ssive.co>
 pkgname=headstart
-pkgver=0.1.0
+pkgver=0.1.3
 pkgrel=0
 pkgdesc="Simple early initialization of instances."
 url="https://github.com/massiveco/headstart"
@@ -36,4 +36,4 @@ package() {
 	install -Dm755 "$builddir"/providers/local.so "$pkgdir"/usr/lib/headstart/providers/local.so
 }
 
-sha512sums="63c38b95d150f5a2842dd0980cc493cad69dfcc7253fcae45d46a79c1e5a43376ee59e86e9171f85fce60a89314cd2ee8e2624b583240fde67be13fa9175a5f2  headstart-0.1.0.tar.gz"
+sha512sums="5df3d42395fda48d969b1a7310828ea9a8e761f55af1d7c4e5a140e439a80a52770e94d49084f0aca426512440bb7cc11c74fdd29ca11ad1ab3922df6530f8f9  headstart-0.1.3.tar.gz"
