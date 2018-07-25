@@ -7,8 +7,10 @@ url="https://github.com/massiveco/aws-hostname"
 arch="all"
 license="Apache-2.0"
 makedepends="go bash"
-source="$pkgname-$pkgver.tar.gz::${url}/archive/${pkgver}.tar.gz"
+source="$pkgname-$pkgver.tar.gz::${url}/archive/${pkgver}.tar.gz
+	aws-hostname.initd"
 builddir="$srcdir/src/github.com/massiveco/aws-hostname"
+install="$pkgname.post-install"
 
 export GOPATH="$srcdir"
 
@@ -31,6 +33,7 @@ build() {
 
 package() {
 	install -Dm755 "$builddir"/aws-hostname "$pkgdir"/usr/bin/aws-hostname
+	install -Dm755 "$srcdir"/aws-hostname.initd "$pkgdir"/etc/init.d/$pkgname
 }
 
 sha512sums="de0e5155838295a70f13b72b540497a980250b69b6d73592c01e44e15b346aadf80289af266ea1ac636fee4ae71f795ac8921afdea1e7506b2b76e70bd0b08e2  aws-hostname-0.2.0.tar.gz"
