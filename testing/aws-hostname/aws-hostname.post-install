@@ -1,0 +1,5 @@
+#!/bin/sh
+
+rc-update add aws-hostname
+
+exit 0

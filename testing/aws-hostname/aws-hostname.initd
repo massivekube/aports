@@ -1,0 +1,15 @@
+#!/sbin/openrc-run
+
+NAME=aws-hostname
+DAEMON=/usr/bin/$NAME
+
+depend() {
+        need net
+}
+
+start() {
+        ebegin "Starting ${NAME}"
+                $DAEMON
+                /sbin/rc-update del ${NAME}
+        eend $?
+}
