@@ -36,4 +36,5 @@ package() {
 	install -Dm755 "$srcdir"/aws-hostname.initd "$pkgdir"/etc/init.d/$pkgname
 }
 
-sha512sums="de0e5155838295a70f13b72b540497a980250b69b6d73592c01e44e15b346aadf80289af266ea1ac636fee4ae71f795ac8921afdea1e7506b2b76e70bd0b08e2  aws-hostname-0.2.0.tar.gz"
+sha512sums="548525b43876a8081808534c76c552fb47e4861d3ad7c40f272f03e5237632a6ab5ac432415d29e1ca8a3fce8c638671addaa40a1fe9d814b60b58f34b2a8f16  aws-hostname-0.3.0.tar.gz
+f468776221ba4e331aa87967a8eeb1bf018091e51e5a71ec3b10e4a45264cb81d53197e9724ba7a914ca5ad5cb6e5fae4aeac8f3fc5c503df670a329a861efa3  aws-hostname.initd"
