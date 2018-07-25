@@ -1,6 +1,6 @@
 # Maintainer: Dan Williams <dan@ma.ssive.co>
 pkgname=aws-hostname
-pkgver=0.2.0
+pkgver=0.3.0
 pkgrel=0
 pkgdesc="Manage instance identity on AWS"
 url="https://github.com/massiveco/aws-hostname"
