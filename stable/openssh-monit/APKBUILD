@@ -1,0 +1,18 @@
+# Maintainer: Dan Williams <dan@ma.ssive.co>
+pkgname=openssh-monit
+pkgver=1.0.0
+pkgrel=0
+pkgdesc="Monit rules for openssh"
+url="https://mmonit.com/monit/"
+arch="noarch"
+license="Apache-2.0"
+depends="openssh monit"
+options="!check"
+
+source="openssh.monit"
+
+package() {
+	install -Dm755 "$srcdir"/openssh.monit "$pkgdir"/etc/monit.d/openssh
+}
+
+sha512sums="2a84e4401d299963d3cc45ab680ed3f2f3235ec0e8233ff67edea537c793c31dbee353eec357c446d37ee15b9dd47887d82e68b4ec3fd8d2172c45471954fd4b  openssh.monit"
