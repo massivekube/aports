@@ -6,6 +6,7 @@ jobs:
       - image: massiveco/docker-alpine-sdk
     steps:
       - checkout
+      - run: apk update
       - run: make testing
       - persist_to_workspace:
           root: /tmp
@@ -16,6 +17,7 @@ jobs:
       - image: massiveco/docker-alpine-sdk
     steps:
       - checkout
+      - run: apk update
       - run: make stable
       - persist_to_workspace:
           root: /tmp
@@ -27,9 +29,10 @@ jobs:
     steps:
       - attach_workspace:
           at: /tmp/
-      - run: echo $SSH_PRIV_KEY | base64 -D > .ssh/circleci
-      - run: apk --update add rsync
-      - run: rsync -avrz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress /tmp/packages alpine.ma.ssive.co:/var/www/alpine.ma.ssive.co/
+      - run: echo DEPLOY!!
+      # - run: echo $SSH_PRIV_KEY | base64 -D > .ssh/circleci
+      # - run: apk --update add rsync
+      # - run: rsync -avrz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress /tmp/packages alpine.ma.ssive.co:/var/www/alpine.ma.ssive.co/
 
 
 workflows:
