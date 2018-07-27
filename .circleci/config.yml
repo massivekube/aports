@@ -6,7 +6,7 @@ jobs:
       - image: massiveco/docker-alpine-sdk
     steps:
       - checkout
-      - run: apk update
+      - run: sudo apk update
       - run: make testing
       - persist_to_workspace:
           root: /tmp
@@ -17,7 +17,7 @@ jobs:
       - image: massiveco/docker-alpine-sdk
     steps:
       - checkout
-      - run: apk update
+      - run: sudo apk update
       - run: make stable
       - persist_to_workspace:
           root: /tmp
