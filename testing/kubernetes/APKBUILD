@@ -1,6 +1,6 @@
 # Maintainer: Dan Williams <dan@ma.ssive.co>
 pkgname=kubernetes
-pkgver=1.10.5
+pkgver=1.11.1
 pkgrel=0
 pkgdesc="Production-Grade Container Scheduling and Management"
 url="https://github.com/kubernetes/kubernetes"
@@ -10,12 +10,19 @@ makedepends="go bash grep findutils rsync linux-headers"
 source="$pkgname-$pkgver.tar.gz::${url}/archive/v${pkgver}.tar.gz"
 builddir="$srcdir/src/github.com/kubernetes/kubernetes"
 subpackages="$pkgname-kubelet $pkgname-kubectl $pkgname-kubeproxy $pkgname-kube_apiserver $pkgname-kube_scheduler $pkgname-kube_controllermanager"
+options="!check"
 
 export GOPATH="$srcdir"
 
 prepare() {
 	mkdir -p ${builddir%/*}
 	mv "$srcdir"/kubernetes-$pkgver "$builddir"/
+#	cd "$builddir"
+#	for i in $source; do
+#		case $i in
+#		*.patch) msg $i; patch -R -p1 -i "$srcdir"/$i;;
+#		esac
+#	done        
 	default_prepare
 }
 
@@ -24,10 +31,10 @@ build() {
  	make -j1 WHAT="cmd/kubelet cmd/kube-proxy cmd/kube-apiserver cmd/kube-controller-manager cmd/kube-scheduler cmd/kubectl"
 }
 
-# check() {
-# 	cd "$builddir"
-# 	make test
-# }
+#check() {
+#	cd "$builddir"
+#	make test
+#}
 
 kube_controllermanager () {
 	local binpath="$builddir/_output/local/bin/linux/amd64"
@@ -118,4 +125,4 @@ package() {
 	mkdir -p "$pkgdir"
 }
 
-sha512sums="55ac294297385cf6a69a48193c691744b886a5fa5d22b7a3a601d39aacd4cd898edccfcdc186bb1845e257f0f177d330af15d29d1419caab03f863bfa095eddf  kubernetes-1.10.5.tar.gz"
+sha512sums="4afb54ae389aa414c7e64a7ab60d586c8f3c75afe4da00bcf2221b4b273e164a09548e61c24a0cdaf9d0e52394c3421e6c70f4fbfc80ed62c40ba7816b03afcf  kubernetes-1.11.1.tar.gz"

@@ -12,7 +12,7 @@ options="!check"
 source="openssh.monit"
 
 package() {
-	install -Dm755 "$srcdir"/openssh.monit "$pkgdir"/etc/monit.d/openssh
+	install -Dm600 "$srcdir"/openssh.monit "$pkgdir"/etc/monit.d/openssh.conf
 }
 
 sha512sums="2a84e4401d299963d3cc45ab680ed3f2f3235ec0e8233ff67edea537c793c31dbee353eec357c446d37ee15b9dd47887d82e68b4ec3fd8d2172c45471954fd4b  openssh.monit"

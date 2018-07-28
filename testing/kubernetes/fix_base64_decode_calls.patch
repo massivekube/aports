@@ -1,0 +1,35 @@
+diff --git a/cluster/gce/gci/configure-helper.sh b/cluster/gce/gci/configure-helper.sh
+index 2a85115a..5649384e 100644
+--- a/cluster/gce/gci/configure-helper.sh
++++ b/cluster/gce/gci/configure-helper.sh
+@@ -424,7 +424,7 @@ function append_or_replace_prefixed_line {
+ function write-pki-data {
+   local data="${1}"
+   local path="${2}"
+-  (umask 077; echo "${data}" | base64 --decode > "${path}")
++  (umask 077; echo "${data}" | base64 -d > "${path}")
+ }
+ 
+ function create-node-pki {
+@@ -1067,9 +1067,9 @@ EOF
+ function create-master-etcd-auth {
+   if [[ -n "${ETCD_CA_CERT:-}" && -n "${ETCD_PEER_KEY:-}" && -n "${ETCD_PEER_CERT:-}" ]]; then
+     local -r auth_dir="/etc/srv/kubernetes"
+-    echo "${ETCD_CA_CERT}" | base64 --decode | gunzip > "${auth_dir}/etcd-ca.crt"
+-    echo "${ETCD_PEER_KEY}" | base64 --decode > "${auth_dir}/etcd-peer.key"
+-    echo "${ETCD_PEER_CERT}" | base64 --decode | gunzip > "${auth_dir}/etcd-peer.crt"
++    echo "${ETCD_CA_CERT}" | base64 -d | gunzip > "${auth_dir}/etcd-ca.crt"
++    echo "${ETCD_PEER_KEY}" | base64 -d > "${auth_dir}/etcd-peer.key"
++    echo "${ETCD_PEER_CERT}" | base64 -d | gunzip > "${auth_dir}/etcd-peer.crt"
+   fi
+ }
+ 
+@@ -1765,7 +1765,7 @@ EOM
+ 
+   if [[ -n "${ENCRYPTION_PROVIDER_CONFIG:-}" ]]; then
+     ENCRYPTION_PROVIDER_CONFIG_PATH="${ENCRYPTION_PROVIDER_CONFIG_PATH:-/etc/srv/kubernetes/encryption-provider-config.yml}"
+-    echo "${ENCRYPTION_PROVIDER_CONFIG}" | base64 --decode > "${ENCRYPTION_PROVIDER_CONFIG_PATH}"
++    echo "${ENCRYPTION_PROVIDER_CONFIG}" | base64 -d > "${ENCRYPTION_PROVIDER_CONFIG_PATH}"
+     params+=" --experimental-encryption-provider-config=${ENCRYPTION_PROVIDER_CONFIG_PATH}"
+   fi
+ 
