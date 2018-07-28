@@ -25,10 +25,10 @@ build() {
 	make binaries
 }
 
-# check() {
-# 	cd "$builddir"
-# 	make test
-# }
+check() {
+	cd "$builddir"
+	make test
+}
 
 package() {
 	install -Dm755 "$builddir"/bin/containerd "$pkgdir"/usr/bin/containerd
