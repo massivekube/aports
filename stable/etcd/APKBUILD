@@ -1,6 +1,6 @@
 # Maintainer: Dan Williams <dan@ma.ssive.co>
 pkgname=etcd
-pkgver=3.3.5
+pkgver=3.3.9
 pkgrel=0
 pkgdesc="Distributed reliable key-value store for the most critical data of a distributed system"
 url="https://github.com/coreos/etcd"
@@ -28,10 +28,10 @@ build() {
 	./build
 }
 
-# check() {
-# 	cd "$builddir"
-# 	./test
-# }
+check() {
+	cd "$builddir"
+	PASSES=unit ./test
+}
 
 package() {
 	install -Dm755 "$builddir"/bin/etcd "$pkgdir"/usr/bin/etcd
@@ -51,7 +51,7 @@ package() {
 
 }
 
-sha512sums="e4495a02f1e2a08cc70a055528edbc118f50e4fe68b51afeb82908a7c2387de1e457adfb8078befec6829daeace61b95501da9f8b3fa49e0aecc9710ece470a4  etcd-3.3.5.tar.gz
+sha512sums="1e5143060d04138eee68250b57f73bf7a6fdb4ca085443df067b12a4824d24b591e42f3d890a285912126447e8b28c0e6bcee58b8633e01dcf9ae5764ff531a6  etcd-3.3.9.tar.gz
 56c2ccdfa3490362622fcd5a7b11c5ba848890817f42e9d59ee1e281666e98168d8f17e8f5cfd76cdea25606fb60d95d4653bd528d3f54ec5a8f9a4ce93028c9  disable-race-tests-on-alpine.patch
 1850860946da39a4f0051ee2f8cf7b159f84cfe591a046e9fe18edbcde861d0ab962c273de4e03312ac976f1bebbf55dc43354f31e507c0b7207b13290308ca3  etcd.initd
 a1ea4b3acaadbd09f580b2fe96875069731b8d439fa0ec334ec9ae1cf4e7cddc22f634cf3ea04771af5885d707a689631999f979149ee6357e60c2ea8f21129d  etcd.monitd
