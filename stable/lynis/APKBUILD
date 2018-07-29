@@ -1,0 +1,27 @@
+# Maintainer: Dan Williams <dan@ma.ssive.co>
+pkgname=lynis
+pkgver=2.6.6
+pkgrel=0
+pkgdesc="Lynis - Security auditing tool for Linux, macOS, and UNIX-based systems."
+url="https://github.com/CISOfy/lynis"
+arch="noarch"
+license="GPL-3.0"
+source="$pkgname-$pkgver.tar.gz::${url}/archive/${pkgver}.tar.gz
+       proxy.sh"
+
+check() {
+	cd "$builddir"
+	./lynis --version > /dev/null
+}
+
+package() {
+
+  cd "$builddir"
+
+  mkdir -p "$pkgdir"/usr/lib/lynis "$pkgdir"/usr/bin/
+	mv * "$pkgdir"/usr/lib/lynis
+	install -Dm755 "$srcdir"/proxy.sh "$pkgdir"/usr/bin/lynis
+}
+
+sha512sums="db6aed7ef7e77b9fa30ca2c0ad8b61c92073f834ccbda8e22271e4e36c3429f09ff8973897b83f8846f107cbcd2ddaf931770193f1684bf8869fb8d0022160cf  lynis-2.6.6.tar.gz
+75841559fedadc7bdb26668ca0a8dc0410f0704161700511f0c07b1f955c646625f3e9947645a0b83375c35b605a4fb4cfb6374e3f4b8ceb7a7ae4027f39e410  proxy.sh"
