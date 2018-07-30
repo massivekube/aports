@@ -1,0 +1,47 @@
+# Maintainer: Dan Williams <dan@ma.ssive.co>
+pkgname=aide
+pkgver=0.16
+pkgrel=0
+pkgdesc="A file integrity checker and intrusion detection program."
+url="http://aide.sourceforge.net"
+arch="x86_64"
+license="GPL"
+makedepends="bison flex pcre-dev e2fsprogs-dev attr-dev libmhash-dev acl-dev zlib-dev libelf-dev"
+source="http://downloads.sourceforge.net/sourceforge/$pkgname/$pkgname-$pkgver.tar.gz"
+subpackages="${pkgname}-doc"
+builddir="$srcdir"/$pkgname-$pkgver
+
+check() {
+	cd "$builddir"
+	make check
+}
+
+build() {
+	cd "$builddir"
+	./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --with-mhash \
+    --with-posix-acl \
+    --with-prelink \
+    --with-xattr \
+    --with-zlib \
+    --with-e2fsattrs \
+    --enable-forced-dbmd
+	make
+}
+
+package() {
+	cd "$builddir"
+	make DESTDIR="$pkgdir" install
+  rm -fR "pkgdir"/usr/share/man
+  #       install -Dm 755 "$srcdir"/$pkgname.initd \
+	# 	"$pkgdir"/etc/init.d/$pkgname
+	# install -Dm 644 "$srcdir"/monitrc \
+	# 	"$pkgdir"/etc/monitrc
+
+	# # monit checks for strict permissions of monitrc at startup
+	# chmod 600 "$pkgdir"/etc/monitrc
+}
+
+sha512sums="29ad97756e3e2fb21dc332ed03b494a1c73e621266f8622ec80bdba23092a38ee975b97f3cff2330e4c16e64e2f672259eea9291ca706a4009e7399b4e14e6a7  aide-0.16.tar.gz"
