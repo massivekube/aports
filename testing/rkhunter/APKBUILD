@@ -1,0 +1,25 @@
+# Maintainer: Dan Williams <dan@ma.ssive.co>
+pkgname=rkhunter
+pkgver=1.4.6
+pkgrel=0
+pkgdesc="Checks machines for the presence of rootkits and other unwanted tools."
+url="http://rkhunter.sourceforge.net"
+arch="noarch"
+license="GPL"
+makedepends=""
+source="http://downloads.sourceforge.net/sourceforge/$pkgname/$pkgname-$pkgver.tar.gz"
+# subpackages="${pkgname}-doc"
+builddir="$srcdir"/$pkgname-$pkgver
+
+check() {
+	cd "$builddir"
+	./installer.sh --show > /dev/null
+}
+
+package() {
+	cd "$builddir"
+	mkdir -p "$pkgdir"/usr/lib
+	./installer.sh --layout custom "$pkgdir"/usr/lib --install --striproot "$pkgdir"
+}
+
+sha512sums="c51a21b6b66ed1f73a19d8ce04eaba35999eefcb666acc824989c3bf53ac56d24a33ac4fec290be942e33fe24674406b371eafff73f7e697b9e03ec031b37216  rkhunter-1.4.6.tar.gz"
