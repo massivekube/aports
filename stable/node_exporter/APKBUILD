@@ -15,7 +15,7 @@ source="$pkgname-$pkgver.tar.gz::${url}/archive/v${pkgver}.tar.gz
 	node_exporter.monitd
 	node_exporter.confd"
 builddir="$srcdir/src/github.com/prometheus/node_exporter"
-install="$pkgname.pre-install $pkgname.post-install"
+install="$pkgname.pre-install"
 
 export GOPATH="$srcdir"
 

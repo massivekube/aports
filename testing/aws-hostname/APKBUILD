@@ -10,7 +10,6 @@ makedepends="go bash"
 source="$pkgname-$pkgver.tar.gz::${url}/archive/${pkgver}.tar.gz
 	aws-hostname.initd"
 builddir="$srcdir/src/github.com/massiveco/aws-hostname"
-install="$pkgname.post-install"
 
 export GOPATH="$srcdir"
 
