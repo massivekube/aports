@@ -1,0 +1,38 @@
+# Maintainer: Dan Williams <dan@ma.ssive.co>
+pkgname=kubernetes-kubectl
+pkgver=1.11.1
+pkgrel=0
+pkgdesc="Production-Grade Container Scheduling and Management"
+url="https://github.com/kubernetes/kubernetes"
+arch="x86_64"
+license="Apache-2.0"
+depends="socat conntrack-tools"
+makedepends="go bash grep findutils rsync linux-headers"
+source="kubernetes-$pkgver.tar.gz::${url}/archive/v${pkgver}.tar.gz"
+builddir="$srcdir/src/github.com/kubernetes/kubernetes"
+binpath="$builddir/_output/local/bin/linux/amd64"
+
+export GOPATH="$srcdir"
+
+prepare() {
+	mkdir -p ${builddir%/*}
+	mv "$srcdir"/kubernetes-$pkgver "$builddir"/
+       
+	default_prepare
+}
+
+build() {
+	cd "$builddir"
+ 	make WHAT=cmd/kubectl
+}
+
+check() {
+	cd "$builddir"
+ 	make test WHAT=./pkg/kubectl
+}
+
+package() {
+	install -Dm700 "$binpath"/kubectl "$pkgdir"/usr/bin/kubectl
+}
+
+sha512sums="4afb54ae389aa414c7e64a7ab60d586c8f3c75afe4da00bcf2221b4b273e164a09548e61c24a0cdaf9d0e52394c3421e6c70f4fbfc80ed62c40ba7816b03afcf  kubernetes-1.11.1.tar.gz"
