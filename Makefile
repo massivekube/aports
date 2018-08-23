@@ -14,10 +14,10 @@ $(TESTING_PACKAGES):
 all: $(STABLE_PACKAGES) $(TESTING_PACKAGES)
 
 shell:
-	@docker run --rm -it -v $(shell pwd):/packages -v $(shell pwd)/repo:/tmp/packages --entrypoint=sh -u alpine massiveco/docker-alpine-sdk
+	@docker run --rm -it -v $(shell pwd):/packages -v $(shell pwd)/repo:/home/alpine/packages --entrypoint=sh -u alpine massiveco/docker-alpine-sdk
 
 docker:
-	@docker run --rm -it -v $(shell pwd):/packages -v $(shell pwd)/repo:/tmp/packages --entrypoint=sh -u alpine massiveco/docker-alpine-sdk -c 'cd /packages && make all'
+	@docker run --rm -it -v $(shell pwd):/packages -v $(shell pwd)/repo:/home/alpine/packages --entrypoint=sh -u alpine massiveco/docker-alpine-sdk -c 'cd /packages && make all'
 
 sync:
 	rsync -avrz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress $(HOME)/packages/* alpine.ma.ssive.co:/var/www/alpine.ma.ssive.co/
