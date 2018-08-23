@@ -43,10 +43,10 @@ kube_controllermanager () {
 	install="$srcdir/kube-controller-manager/install"
 
 	# Binaries
-	install -Dm755 "$binpath"/kube-controller-manager "$subpkgdir"/usr/bin/kube-controller-manager
+	install -Dm700 "$binpath"/kube-controller-manager "$subpkgdir"/usr/bin/kube-controller-manager
 
 	# Config
-	install -Dm600 "$configpath"/kube-controller-manager.initd "$subpkgdir"/etc/init.d/kube-controller-manager
+	install -Dm700 "$configpath"/kube-controller-manager.initd "$subpkgdir"/etc/init.d/kube-controller-manager
 	install -Dm600 "$configpath"/kube-controller-manager.confd "$subpkgdir"/etc/conf.d/kube-controller-manager
 	install -Dm600 "$configpath"/kube-controller-manager.monitd "$subpkgdir"/etc/monit.d/kube-controller-manager.conf
 }
@@ -58,10 +58,10 @@ kube_apiserver() {
 	install="$srcdir/kube-apiserver/install"
 
 	# Binaries
-	install -Dm755 "$binpath"/kube-apiserver "$subpkgdir"/usr/bin/kube-apiserver
+	install -Dm700 "$binpath"/kube-apiserver "$subpkgdir"/usr/bin/kube-apiserver
 
 	# Config
-	install -Dm600 "$configpath"/kube-apiserver.initd "$subpkgdir"/etc/init.d/kube-apiserver
+	install -Dm700 "$configpath"/kube-apiserver.initd "$subpkgdir"/etc/init.d/kube-apiserver
 	install -Dm600 "$configpath"/kube-apiserver.confd "$subpkgdir"/etc/conf.d/kube-apiserver
 	install -Dm600 "$configpath"/kube-apiserver.monitd "$subpkgdir"/etc/monit.d/kube-apiserver.conf
 }
@@ -72,10 +72,10 @@ kube_scheduler() {
 	local configpath="$srcdir/../kube-scheduler"
 
 	# Binary
-	install -Dm755 "$binpath"/kube-scheduler "$subpkgdir"/usr/bin/kube-scheduler
+	install -Dm700 "$binpath"/kube-scheduler "$subpkgdir"/usr/bin/kube-scheduler
 
 	# Config
-	install -Dm600 "$configpath"/kube-scheduler.initd "$subpkgdir"/etc/init.d/kube-scheduler
+	install -Dm700 "$configpath"/kube-scheduler.initd "$subpkgdir"/etc/init.d/kube-scheduler
 	install -Dm600 "$configpath"/kube-scheduler.confd "$subpkgdir"/etc/conf.d/kube-scheduler
 	install -Dm600 "$configpath"/kube-scheduler.monitd "$subpkgdir"/etc/monit.d/kube-scheduler.conf
 }
@@ -89,10 +89,10 @@ kubelet() {
 	install="$srcdir/kubelet/install"
 
 	# Binaries
-	install -Dm755 "$binpath"/kubelet "$subpkgdir"/usr/bin/kubelet
+	install -Dm700 "$binpath"/kubelet "$subpkgdir"/usr/bin/kubelet
 
 	# Config
-	install -Dm600 "$configpath"/kubelet.initd "$subpkgdir"/etc/init.d/kubelet
+	install -Dm700 "$configpath"/kubelet.initd "$subpkgdir"/etc/init.d/kubelet
 	install -Dm600 "$configpath"/kubelet.confd "$subpkgdir"/etc/conf.d/kubelet
 	install -Dm600 "$configpath"/kubelet.monitd "$subpkgdir"/etc/monit.d/kubelet.conf
 }
@@ -107,10 +107,10 @@ kubeproxy() {
 	install="$srcdir/kube-proxy/install"
 
 	# Binaries
-	install -Dm755 "$binpath"/kube-proxy "$subpkgdir"/usr/bin/kube-proxy
+	install -Dm700 "$binpath"/kube-proxy "$subpkgdir"/usr/bin/kube-proxy
 
 	# Config
-	install -Dm600 "$configpath"/kube-proxy.initd "$subpkgdir"/etc/init.d/kube-proxy
+	install -Dm700 "$configpath"/kube-proxy.initd "$subpkgdir"/etc/init.d/kube-proxy
 	install -Dm600 "$configpath"/kube-proxy.confd "$subpkgdir"/etc/conf.d/kube-proxy
 	install -Dm600 "$configpath"/kube-proxy.monitd "$subpkgdir"/etc/monit.d/kube-proxy.conf
 }
