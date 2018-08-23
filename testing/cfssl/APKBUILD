@@ -1,0 +1,41 @@
+# Maintainer: Dan Williams <dan@ma.ssive.co>
+pkgname=cfssl
+pkgver=1.3.2
+pkgrel=0
+pkgdesc="CFSSL is CloudFlare's PKI/TLS swiss army knife"
+url="https://github.com/cloudflare/cfssl"
+arch="all"
+license="Apache-2.0"
+makedepends="go bash libc6-compat"
+source="$pkgname-$pkgver.tar.gz::${url}/archive/${pkgver}.tar.gz"
+builddir="$srcdir/src/github.com/cloudflare/cfssl"
+
+export GOPATH="$srcdir"
+export PATH="$PATH:$srcdir/bin"
+export GOBIN="$srcdir/bin"
+
+prepare() {
+	mkdir -p ${builddir%/*}
+	mv "$srcdir"/$pkgname-${pkgver} "$builddir"/
+
+
+	default_prepare
+}
+
+build() {
+	cd "$builddir"/cmd
+
+	go install ./...
+}
+
+# check() {
+# 	cd "$builddir"
+# 	./test.sh
+# }
+
+package() {
+	install -Dm755 "$srcdir"/bin/cfssl "$pkgdir"/usr/bin/cfssl
+	install -Dm755 "$srcdir"/bin/cfssljson "$pkgdir"/usr/bin/cfssljson
+}
+
+sha512sums="aba27a282c8ca8e95769996aea7e5300b0c3f8fea7ae26484d19a7e1a0330f0b3a0649407062f1a10e8c93136693954e3b24c92456f69db3abee509f982ba554  cfssl-1.3.2.tar.gz"

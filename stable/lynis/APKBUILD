@@ -16,9 +16,9 @@ check() {
 
 package() {
 
-  cd "$builddir"
+  	cd "$builddir"
 
-  mkdir -p "$pkgdir"/usr/lib/lynis "$pkgdir"/usr/bin/
+  	mkdir -p "$pkgdir"/usr/lib/lynis "$pkgdir"/usr/bin/
 	mv * "$pkgdir"/usr/lib/lynis
 	install -Dm755 "$srcdir"/proxy.sh "$pkgdir"/usr/bin/lynis
 }
