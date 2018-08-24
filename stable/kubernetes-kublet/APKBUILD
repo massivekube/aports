@@ -1,0 +1,57 @@
+# Maintainer: Dan Williams <dan@ma.ssive.co>
+pkgname=kubernetes-kubelet
+pkgver=1.11.1
+pkgrel=0
+pkgdesc="Production-Grade Container Scheduling and Management"
+url="https://github.com/kubernetes/kubernetes"
+arch="x86_64"
+license="Apache-2.0"
+makedepends="go bash grep findutils rsync linux-headers"
+builddir="$srcdir/src/github.com/kubernetes/kubernetes"
+binpath="$builddir/_output/local/bin/linux/amd64"
+source="kubernetes-$pkgver.tar.gz::${url}/archive/v${pkgver}.tar.gz
+	kubelet-config.yaml
+	kubelet.confd
+	kubelet.initd
+	kubelet.monitd"
+
+export GOPATH="$srcdir"
+
+prepare() {
+	mkdir -p ${builddir%/*}
+	mv "$srcdir"/kubernetes-$pkgver "$builddir"/
+       
+	default_prepare
+}
+
+build() {
+	cd "$builddir"
+ 	make WHAT=cmd/kubelet
+}
+
+check() {
+	cd "$builddir"
+ 	make test WHAT=./pkg/kubelet
+}
+
+package() {
+	# Binary
+	install -Dm700 "$binpath"/kubelet "$pkgdir"/usr/bin/kubelet
+
+	# OpenRC
+	install -Dm700 "$srcdir"/../kubelet.initd "$pkgdir"/etc/init.d/kubelet
+
+	# Config
+	install -Dm600 "$srcdir"/../kubelet-config.yaml "$pkgdir"/var/lib/kubelet/kubelet-config.yaml
+	install -Dm600 "$srcdir"/../kubelet.confd "$pkgdir"/etc/conf.d/kubelet
+
+	# Process Monitoring 
+	install -Dm600 "$srcdir"/../kubelet.monitd "$pkgdir"/etc/monit.d/kubelet.conf
+
+}
+
+sha512sums="4afb54ae389aa414c7e64a7ab60d586c8f3c75afe4da00bcf2221b4b273e164a09548e61c24a0cdaf9d0e52394c3421e6c70f4fbfc80ed62c40ba7816b03afcf  kubernetes-1.11.1.tar.gz
+327b40f599b6b3b4c7d02b24f185d50c6521a0821ec996d8212a7a3cbbc93761fe619d64c30a063981865919854b2fe00117a8f77b3b62ee522b5cde5dac66e9  kubelet-config.yaml
+fa5305271c55f3b5b913c47e09b072550f4511eb5a3be016b480f369244fbb15dd0b96f1c6f3d9eed1ba513a2cf762e48524e2e63a2bd09c9f3071a4535f7aa6  kubelet.confd
+9265cf86aaa0cf43c3f049b229dc729dcca61410e9af77ce340626303c50b2bbc96d99dff82d7261503bedaf47ac1a1604ccbcf85574fe97041ca97d825f15c8  kubelet.initd
+fec9124e492bc2d7de918e011a9958d1ec86b33131952ecb846bb38fc1326e62586dbbf089726f2b377a4b39b3262467d401d9240e756250d99d9b387b418459  kubelet.monitd"
