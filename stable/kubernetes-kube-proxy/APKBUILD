@@ -31,7 +31,7 @@ build() {
 
 check() {
 	cd "$builddir"
- 	make test WHAT=./pkg/kube-proxy
+ 	make test WHAT=./pkg/proxy
 }
 
 package() {
