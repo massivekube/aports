@@ -1,0 +1,57 @@
+# Maintainer: Dan Williams <dan@ma.ssive.co>
+pkgname=kubernetes-kube-proxy
+pkgver=1.11.1
+pkgrel=0
+pkgdesc="Production-Grade Container Scheduling and Management"
+url="https://github.com/kubernetes/kubernetes"
+arch="x86_64"
+license="Apache-2.0"
+makedepends="go bash grep findutils rsync linux-headers"
+builddir="$srcdir/src/github.com/kubernetes/kubernetes"
+binpath="$builddir/_output/local/bin/linux/amd64"
+source="kubernetes-$pkgver.tar.gz::${url}/archive/v${pkgver}.tar.gz
+	kube-proxy-config.yaml
+	kube-proxy.confd
+	kube-proxy.initd
+	kube-proxy.monitd"
+
+export GOPATH="$srcdir"
+
+prepare() {
+	mkdir -p ${builddir%/*}
+	mv "$srcdir"/kubernetes-$pkgver "$builddir"/
+       
+	default_prepare
+}
+
+build() {
+	cd "$builddir"
+ 	make WHAT=cmd/kube-proxy
+}
+
+check() {
+	cd "$builddir"
+ 	make test WHAT=./pkg/kube-proxy
+}
+
+package() {
+	# Binary
+	install -Dm700 "$binpath"/kube-proxy "$pkgdir"/usr/bin/kube-proxy
+
+	# OpenRC
+	install -Dm700 "$srcdir"/../kube-proxy.initd "$pkgdir"/etc/init.d/kube-proxy
+
+	# Config
+	install -Dm600 "$srcdir"/../kube-proxy-config.yaml "$pkgdir"/var/lib/kube-proxy/kube-proxy-config.yaml
+	install -Dm600 "$srcdir"/../kube-proxy.confd "$pkgdir"/etc/conf.d/kube-proxy
+
+	# Process Monitoring 
+	install -Dm600 "$srcdir"/../kube-proxy.monitd "$pkgdir"/etc/monit.d/kube-proxy.conf
+
+}
+
+sha512sums="4afb54ae389aa414c7e64a7ab60d586c8f3c75afe4da00bcf2221b4b273e164a09548e61c24a0cdaf9d0e52394c3421e6c70f4fbfc80ed62c40ba7816b03afcf  kubernetes-1.11.1.tar.gz
+327b40f599b6b3b4c7d02b24f185d50c6521a0821ec996d8212a7a3cbbc93761fe619d64c30a063981865919854b2fe00117a8f77b3b62ee522b5cde5dac66e9  kube-proxy-config.yaml
+2859cb8e43bb0366aec0107341de475d80f02f775e43f46fea07f5e9ef7a0b3aba9675a7f89dc8e2748dd3a87ea75a2e93dc6939dd6b6c54f7c2d836ae5832b1  kube-proxy.confd
+0977ddcc33e78d6fa1386dbd1aeac0b1065b1e006db446933e3c388e798fe44c8e43b12adc6a29f3302a1fd9c7f46b3920b3653eb15a3512ecf178d6489d7b23  kube-proxy.initd
+78f0f52b524a705d7093109001373e9059671ee1f166f0c9b90f3f431a3fb8ac74c439e9d3502291211a7ece18d1c84a63737c574da2a10c72be0b0ee6dbf7a9  kube-proxy.monitd"

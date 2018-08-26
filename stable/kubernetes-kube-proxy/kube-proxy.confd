@@ -1,0 +1,3 @@
+
+LOG_LEVEL=2
+KUBE_PROXY_CONFIG=/var/lib/kube-proxy/kube-proxy-config.yaml
