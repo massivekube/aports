@@ -1,0 +1,71 @@
+#!/sbin/openrc-run
+
+NAME=kube-apiserver
+DAEMON=/usr/bin/$NAME
+
+OPTS="
+  --allow-privileged=false \
+  --apiserver-count=${APISERVER_COUNT} \
+  --anonymous-auth=false \
+  --audit-log-maxage=30 \
+  --audit-log-maxbackup=3 \
+  --audit-log-maxsize=100 \
+  --audit-log-path=/var/log/audit.log \
+
+  --authorization-mode=${AUTHORIZATION_MODE} \
+  --bind-address=0.0.0.0 \
+  --client-ca-file=/var/lib/kubernetes/ca.pem \
+  --enable-admission-plugins=Initializers,NamespaceLifecycle,NodeRestriction,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota \
+  --enable-swagger-ui=true \
+  --enable-logs-handler=false \
+  --etcd-cafile=${ETCD_CA} \
+  --etcd-certfile=/${ETCD_CERT} \
+  --etcd-keyfile=${ETCD_KEY} \
+  --etcd-servers=${ETCD_SERVERS} \
+
+  --event-ttl=1h \
+  --experimental-encryption-provider-config=/var/lib/kubernetes/encryption-config.yaml \
+  --profiling=false \
+  --kubelet-certificate-authority=${KUBELET_CA} \
+  --kubelet-client-certificate=${KUBELET_CERT} \
+  --kubelet-client-key=${KUBELET_KEY} \
+  --kubelet-https=true \
+
+  --runtime-config=api/all \
+  --secure-port=${SECURE_PORT} \
+  --repair-malformed-updates=false \
+
+  --service-account-key-file=${SERVICE_ACCOUNT_KEY} \
+  --service-cluster-ip-range=${SERVICE_CLUSTER_IP_RANGE}
+  --service-node-port-range=30000-32767 \
+
+  --tls-ca-file=${TLS_CA} \
+  --tls-cert-file=${TLS_CERT} \
+  --tls-private-key-file=${TLS_KEY} \
+
+  --v=${LOG_LEVEL}"
+
+depend() {
+        need net
+        after firewall
+}
+
+start() {
+        ebegin "Starting ${NAME}"
+                start-stop-daemon --start \
+                        --background \
+                        --make-pidfile --pidfile /var/run/$NAME.pid \
+                        --stderr "/var/log/$NAME.log" \
+                        --stdout "/var/log/$NAME.log" \
+                        --exec $DAEMON \
+                        -- $OPTS
+        eend $?
+}
+
+stop () {
+        ebegin "Stopping ${NAME}"
+                start-stop-daemon --stop \
+                        --pidfile /var/run/$NAME.pid \
+                        --exec $DAEMON
+        eend $?
+}
