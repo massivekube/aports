@@ -1,0 +1,57 @@
+# Maintainer: Dan Williams <dan@ma.ssive.co>
+pkgname=kubernetes-kube-apiserver
+pkgver=1.11.1
+pkgrel=0
+pkgdesc="Production-Grade Container Scheduling and Management"
+url="https://github.com/kubernetes/kubernetes"
+arch="x86_64"
+license="Apache-2.0"
+makedepends="go bash grep findutils rsync linux-headers"
+builddir="$srcdir/src/github.com/kubernetes/kubernetes"
+binpath="$builddir/_output/local/bin/linux/amd64"
+source="kubernetes-$pkgver.tar.gz::${url}/archive/v${pkgver}.tar.gz
+	kube-apiserver-config.yaml
+	kube-apiserver.confd
+	kube-apiserver.initd
+	kube-apiserver.monitd"
+
+export GOPATH="$srcdir"
+
+prepare() {
+	mkdir -p ${builddir%/*}
+	mv "$srcdir"/kubernetes-$pkgver "$builddir"/
+       
+	default_prepare
+}
+
+build() {
+	cd "$builddir"
+ 	make WHAT=cmd/kube-apiserver
+}
+
+check() {
+	cd "$builddir"
+ 	make test WHAT=./pkg/api
+}
+
+package() {
+	# Binary
+	install -Dm700 "$binpath"/kube-apiserver "$pkgdir"/usr/bin/kube-apiserver
+
+	# OpenRC
+	install -Dm700 "$srcdir"/../kube-apiserver.initd "$pkgdir"/etc/init.d/kube-apiserver
+
+	# Config
+	install -Dm600 "$srcdir"/../kube-apiserver-config.yaml "$pkgdir"/var/lib/kube-apiserver/kube-apiserver-config.yaml
+	install -Dm600 "$srcdir"/../kube-apiserver.confd "$pkgdir"/etc/conf.d/kube-apiserver
+
+	# Process Monitoring 
+	install -Dm600 "$srcdir"/../kube-apiserver.monitd "$pkgdir"/etc/monit.d/kube-apiserver.conf
+
+}
+
+sha512sums="4afb54ae389aa414c7e64a7ab60d586c8f3c75afe4da00bcf2221b4b273e164a09548e61c24a0cdaf9d0e52394c3421e6c70f4fbfc80ed62c40ba7816b03afcf  kubernetes-1.11.1.tar.gz
+327b40f599b6b3b4c7d02b24f185d50c6521a0821ec996d8212a7a3cbbc93761fe619d64c30a063981865919854b2fe00117a8f77b3b62ee522b5cde5dac66e9  kube-apiserver-config.yaml
+e3edaf2cb237e9c5fd27ace4488350b2bdebded86bbf4bf032d43ac5955f96cbfaf630694fb2f728f2376b7791260089bfa99c2650d69bdbf6c58c0d0a1b1727  kube-apiserver.confd
+6a00b154c909fd04341fde091f18745271dc9ec979695bb0f3ac05d6f5a2620f65d23d69f5ab82a70fa73392ad8cb0c699d822af7b3e97478aa95bb390910354  kube-apiserver.initd
+abf04822c9b790a5d9ad511186521723fb47cf2ee841ad1081c248c762725d4687147b6a5151e054e86eb7f46301e2dad165d4c7d89093b231d36eec95436a50  kube-apiserver.monitd"
