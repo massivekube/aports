@@ -10,7 +10,6 @@ makedepends="go bash grep findutils rsync linux-headers"
 builddir="$srcdir/src/github.com/kubernetes/kubernetes"
 binpath="$builddir/_output/local/bin/linux/amd64"
 source="kubernetes-$pkgver.tar.gz::${url}/archive/v${pkgver}.tar.gz
-	kube-controller-manager-config.yaml
 	kube-controller-manager.confd
 	kube-controller-manager.initd
 	kube-controller-manager.monitd"

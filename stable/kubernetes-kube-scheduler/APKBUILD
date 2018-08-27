@@ -42,7 +42,7 @@ package() {
 	install -Dm700 "$srcdir"/../kube-scheduler.initd "$pkgdir"/etc/init.d/kube-scheduler
 
 	# Config
-	install -Dm600 "$srcdir"/../kube-scheduler-config.yaml "$pkgdir"/var/lib/kube-scheduler/kube-scheduler-config.yaml
+	install -Dm600 "$srcdir"/../kube-scheduler-config.yaml "$pkgdir"/etc/kubernetes/config/kube-scheduler-config.yaml
 	install -Dm600 "$srcdir"/../kube-scheduler.confd "$pkgdir"/etc/conf.d/kube-scheduler
 
 	# Process Monitoring 
