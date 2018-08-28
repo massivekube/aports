@@ -41,7 +41,6 @@ package() {
 	install -Dm700 "$srcdir"/../kube-controller-manager.initd "$pkgdir"/etc/init.d/kube-controller-manager
 
 	# Config
-	install -Dm600 "$srcdir"/../kube-controller-manager-config.yaml "$pkgdir"/var/lib/kube-controller-manager/kube-controller-manager-config.yaml
 	install -Dm600 "$srcdir"/../kube-controller-manager.confd "$pkgdir"/etc/conf.d/kube-controller-manager
 
 	# Process Monitoring 
