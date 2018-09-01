@@ -1,0 +1,9 @@
+#!/sbin/openrc-run
+
+depend() {
+	need net
+	provide headstart
+	use dns
+}
+
+command="/usr/bin/headstart"

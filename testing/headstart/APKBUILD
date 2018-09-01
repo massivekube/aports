@@ -8,7 +8,8 @@ giturl="git@github.com:massiveco/headstart.git"
 arch="all"
 license="Apache-2.0"
 makedepends="go bash"
-source="$pkgname-$pkgver.tar.gz::${url}/archive/v${pkgver}.tar.gz"
+source="$pkgname-$pkgver.tar.gz::${url}/archive/v${pkgver}.tar.gz
+	headstart.initd"
 builddir="$srcdir/src/github.com/massiveco/headstart"
 
 export GOPATH="$srcdir"
@@ -31,9 +32,12 @@ check() {
 }
 
 package() {
+	install -Dm755 "$srcdir"/headstart.initd "$pkgdir"/etc/init.d/headstart 
+	
 	install -Dm755 "$builddir"/headstart "$pkgdir"/usr/bin/headstart
 	install -Dm755 "$builddir"/aws.so "$pkgdir"/usr/lib/headstart/providers/aws.so
 	install -Dm755 "$builddir"/local.so "$pkgdir"/usr/lib/headstart/providers/local.so
 }
 
-sha512sums="0a69e664b13e204edd13f5c0d38f3fa9f11bf13ad3914452af24362dbd0b4ddbb58298da00b491408af1e4774b14a52f110d0130a8cf15a1cdece1ff10241e87  headstart-0.2.0.tar.gz"
+sha512sums="0a69e664b13e204edd13f5c0d38f3fa9f11bf13ad3914452af24362dbd0b4ddbb58298da00b491408af1e4774b14a52f110d0130a8cf15a1cdece1ff10241e87  headstart-0.2.0.tar.gz
+d5b39d2bd234025915c513360e334557497128ffa9ec74bc0863e5187bd2e36364cd218e4f968e4e2396c21927bb8310fbaf5b58b5edffef9f82b63be08944dc  headstart.initd"
