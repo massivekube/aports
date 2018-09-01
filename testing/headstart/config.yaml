@@ -2,8 +2,8 @@
 
 files:
   /etc/motd:
-    mode: 0600
+    mode: 0655
     owner: root
     group: root
     contents: |
-      Managed by Massivekube
+      Connected to: {{.Hostname}}. Managed by Massivekube
