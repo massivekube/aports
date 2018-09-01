@@ -1,0 +1,9 @@
+#!headstart
+
+files:
+  /etc/motd:
+    mode: 0600
+    owner: root
+    group: root
+    contents: |
+      Managed by Massivekube
