@@ -1,14 +1,14 @@
 # Maintainer: Dan Williams <dan@ma.ssive.co>
 pkgname=cri-tools
-pkgver=1.11.0
+pkgver=1.11.1
 pkgrel=0
 pkgdesc="CLI and validation tools for Kubelet Container Runtime Interface (CRI) ."
-url="https://github.com/kubernetes-incubator/cri-tools"
+url="https://github.com/kubernetes-sigs/cri-tools"
 arch="all"
 license="Apache-2.0"
 makedepends="go"
 source="$pkgname-$pkgver.tar.gz::${url}/archive/v${pkgver}.tar.gz"
-builddir="$srcdir/src/github.com/kubernetes-incubator/cri-tools"
+builddir="$srcdir/src/github.com/kubernetes-sigs/cri-tools"
 
 export GOPATH="$srcdir"
 
@@ -23,13 +23,13 @@ build() {
 	make crictl
 }
 
-# check() {
-# 	cd "$builddir"
-# 	go test ./...
-# }
+check() {
+	cd "$srcdir"
+	./bin/crictl --version
+}
 
 package() {
 	install -Dm755 "$srcdir"/bin/crictl "$pkgdir"/usr/bin/crictl
 }
 
-sha512sums="3ebc423101c25efb2a9b077aa8354d3fbb1a1ad00a00cbcf9d7072253873b9b7ae005de76188e1746c3c68df72b6c7573b30923ef9d8422bc5748286b387ac0b  cri-tools-1.11.0.tar.gz"
+sha512sums="3e87c26061a8d5a6077c23b35adef3c85e1e0b85378d8062ebb1886195105f034ecf9407d14f495c23e40a5e016ff0ad5e89625beaacd594b8c7ef4e0b41b56e  cri-tools-1.11.1.tar.gz"

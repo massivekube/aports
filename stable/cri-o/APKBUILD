@@ -1,0 +1,45 @@
+# Maintainer: Dan Williams <dan@ma.ssive.co>
+pkgname=cri-o
+pkgver=1.11.2
+pkgrel=0
+pkgdesc="CLI and validation tools for Kubelet Container Runtime Interface (CRI) ."
+url="https://github.com/kubernetes-sigs/cri-o"
+arch="all"
+license="Apache-2.0"
+makedepends="go libseccomp-dev libapparmor-dev glib-dev gpgme-dev btrfs-progs-dev lvm2-dev libc6-compat bats"
+source="$pkgname-$pkgver.tar.gz::${url}/archive/v${pkgver}.tar.gz"
+builddir="$srcdir/src/github.com/kubernetes-sigs/cri-o"
+
+export GOPATH="$srcdir"
+
+prepare() {
+	mkdir -p ${builddir%/*}
+	mv "$srcdir"/${pkgname/cni-/}-${pkgver} "$builddir"/
+	default_prepare
+}
+
+build() {
+	cd "$builddir"
+	make install.tools
+	make BUILDTAGS='seccomp apparmor'
+}
+
+check() {
+	cd "$builddir"
+	./bin/crio --version
+}
+
+package() {
+
+	# Binaries
+	install -Dm755 "$builddir"/bin/crio "$pkgdir"/usr/bin/crio
+	install -Dm755 "$builddir"/bin/conmon "$pkgdir"/usr/bin/conmon
+	install -Dm755 "$builddir"/bin/pause "$pkgdir"/usr/bin/pause
+	install -Dm755 "$builddir"/bin/crio "$pkgdir"/usr/bin/crio
+
+	# Config
+    install -Dm600 "$builddir"/crio.conf "$pkgdir"/etc/crio/crio.conf
+
+}
+
+sha512sums="683120f35d0c14d4dffaa8912e3ed4ed36ae90cc0497fbfcb2ce43f12a8e0a4e464e2dab4eb72ff0bbdffc039e16ef8adbe4641173a7ce2cf9b20bacded69123  cri-o-1.11.2.tar.gz"
