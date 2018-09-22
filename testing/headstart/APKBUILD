@@ -1,6 +1,6 @@
 # Maintainer: Dan Williams <dan@ma.ssive.co>
 pkgname=headstart
-pkgver=0.2.1
+pkgver=0.2.3
 pkgrel=0
 pkgdesc="Simple early initialization of instances."
 url="https://github.com/massiveco/headstart"
